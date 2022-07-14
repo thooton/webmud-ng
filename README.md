@@ -30,18 +30,31 @@ Download the appropriate binary from the releases section. Put it in your PATH i
 Usage: `webmud-ng <ip> <port> [--extern-is-https] [--legacy-only] [--legacy-ip=#] [--legacy-port=#] [--legacy-extern-host=#] [--legacy-extern-port=#] [--legacy-extern-is-https] [--no-color] [--serve-from=directory] [--allow-private-connections] [--allow-invalid-tls] [--debug]`
 
 `ip` - Required. The local IP for the web server and modern WS server to bind to.
+
 `port` - Required. The local port for the web server and modern WS server to bind to.
+
 `--extern-is-https` - If the default `ws://` is causing modern WebSocket clients to connect without TLS when they should, then this flag will force the prefix to `wss://`. This should not be required on newer browsers.
+
 `--legacy-only` - No web server. Listen for legacy WebSocket connections only.
+
 `--legacy-ip=#` - Set the IP for the legacy WebSocket listener to bind to.
+
 `--legacy-port=#` - Set the port for the legacy WebSocket listener to bind to.
+
 `--legacy-extern-host=#` - Set the external host that legacy WebSocket clients will attempt to connect to.
+
 `--legacy-extern-port=#` - Set the external port that legacy WebSocket clients will attempt to connect to.
+
 `--legacy-extern-is-https` - Legacy WebSocket clients will use the prefix `wss://` instead of `ws://`.
+
 `--no-color` - Instead of replacing Telnet colors with HTML/CSS equivalents, strip all color entirely.
+
 `--serve-from=#` - Serve web server files dynamically from the directory `#`.
+
 `--allow-private-connections` - Allow clients to connect to loopback/private ranges.
+
 `--allow-invalid-tls` - Allow clients to connect via TLS, even if the certificate is invalid.
+
 `--debug` - Print some debug info about incoming connections.
 
 ## License
