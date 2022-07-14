@@ -1,0 +1,32 @@
+[package]
+name = "webmud-ng"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = "4"
+actix = "0.13.0"
+actix-web-actors = "4"
+actix-files = "0.6.1"
+nanoserde = "0.1.30"
+anyhow = "1.0"
+regex = "1.6.0"
+lazy_static = "1.4.0"
+tokio = { version = "1.19.2", features = ["macros"] }
+libtelnet-rs = "2.0.0"
+actix-web-static-files = "4.0"
+static-files = "0.2"
+md5 = "0.7.0"
+memchr = "2.5.0"
+tokio-native-tls = "0.3.0"
+
+[build-dependencies]
+static-files = "0.2"
+
+[dependencies.native-tls]
+features = ["vendored"]
+
+[target.'cfg(unix)'.dependencies]
+openssl-probe = "0.1.5"
