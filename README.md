@@ -58,4 +58,4 @@ Usage: `webmud-ng <ip> <port> [--extern-is-https] [--legacy-only] [--legacy-ip=#
 `--debug` - Print some debug info about incoming connections.
 
 ## License
-CC-BY-SA 4.0
+My changes are licensed under CC BY-SA 4.0, but the parts retained from PHudBase-WebMud are dual-licensed under CC BY 3.0 and GNU GPL v3.
