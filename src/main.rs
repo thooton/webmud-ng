@@ -2,7 +2,7 @@
 
 use std::{env::Args, net::IpAddr};
 
-use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer, HttpResponseBuilder, http::StatusCode, middleware};
+use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer, HttpResponseBuilder, http::StatusCode};
 use actix_web_actors::ws;
 use actix_web_static_files::ResourceFiles;
 
@@ -164,11 +164,29 @@ fn parse_args(args: Args) -> anyhow::Result<Config> {
     })
 }
 
+mod localip {
+    use std::net::IpAddr;
+
+    use local_ip_address::local_ip;
+
+    static mut LOCAL_IP: Option<IpAddr> = None;
+    
+    pub unsafe fn init() {
+        LOCAL_IP = local_ip().ok();
+    }
+
+    pub fn get() -> &'static Option<IpAddr> {
+        unsafe { &LOCAL_IP }
+    }
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     #[cfg(unix)]
     openssl_probe::init_ssl_cert_env_vars();
-    
+
+    unsafe { localip::init(); }
+
     let config = parse_args(std::env::args()).unwrap_or_else(|err| {
         eprintln!("{}", err);
         std::process::exit(1);

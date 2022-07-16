@@ -21,6 +21,7 @@ static-files = "0.2"
 md5 = "0.7.0"
 memchr = "2.5.0"
 tokio-native-tls = "0.3.0"
+local-ip-address = "0.4.5"
 
 [build-dependencies]
 static-files = "0.2"

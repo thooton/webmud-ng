@@ -1,11 +1,3 @@
-/*******************************************************************************************************************
- * 
- * This work is licensed under the Creative Commons Attribution 3.0 United States License. 
- * To view a copy of this license, visit http://creativecommons.org/licenses/by/3.0/us/ or 
- * send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
- * 
- *******************************************************************************************************************/
-
 var socket;
 var conn_div;
 var m_conn_div;
@@ -58,6 +50,13 @@ function lastIndexOf(str, needle) {
 		string = string.substring(tmpIndex + 1);
     }
     return lastIndex - 1;
+}
+
+var do_json_parse;
+if (JSON && JSON.parse) {
+	do_json_parse = JSON.parse;
+} else {
+	do_json_parse = json_parse;
 }
 
 var mudhost;
@@ -226,8 +225,9 @@ function print(s) {
 function handle_read(s)
 {
 	//console.log(s);
-	data = eval("(" + s + ")");
-	
+	//data = eval("(" + s + ")");
+	data = do_json_parse(s);
+
 	// Check for ATCP messages ( //
 	handle_ATCP(data);
 	
@@ -259,7 +259,9 @@ function handle_read(s)
 function ow_Write(text)
 {	
 	var objDiv = window.top.document.getElementById("output");
-		
+
+	text = '<div id="msg' + num_msgs + '">' + text + '</div>'; 
+
 	objDiv.innerHTML += text;
 	
 	trim_ow();

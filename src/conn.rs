@@ -62,9 +62,18 @@ use libtelnet_rs::Parser;
 use libtelnet_rs::events::TelnetEvents;
 
 fn get_ip_ensure_non_local(host: &str) -> Result<IpAddr> {
-    let ip = format!("{}:443", host).to_socket_addrs()?.next().context("Unable to resolve IP")?.ip();
-    if !get_config().allow_private_connections && !ip.is_global() {
-        bail!("The provided host cannot be globally routed");
+    let ip = format!("{}:443", host)
+        .to_socket_addrs()?
+        .next().context("Unable to resolve IP")?.ip();
+    if !get_config().allow_private_connections {
+        let equal_local_ip = if let Some(local_ip) = crate::localip::get() {
+            ip.eq(local_ip)
+        } else {
+            false
+        };
+        if !ip.is_global() || equal_local_ip {
+            bail!("The provided host cannot be globally routed");
+        }
     };
     Ok(ip)
 }
