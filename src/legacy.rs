@@ -15,18 +15,23 @@ pub fn start(host: IpAddr, port: u16) {
 async fn go(addr: String) {
     let server = TcpListener::bind(addr).await.unwrap();
     loop {
-        if let Ok((stream, addr)) = server.accept().await {
-            debug!("Accepted legacy WebSocket connection from {}", addr);
-            tokio::spawn(async move {
-                match Box::pin(handshake(stream)).await {
-                    Ok(_) => {
-                        debug!("Legacy WebSocket handshake from {} completed OK", addr);
-                    },
-                    Err(err) => {
-                        debug!("Legacy WebSocket handshake from {} failed: {}", addr, err);
+        match server.accept().await {
+            Ok((stream, addr)) => {
+                debug!("Accepted legacy WebSocket connection from {}", addr);
+                tokio::spawn(async move {
+                    match Box::pin(handshake(stream)).await {
+                        Ok(_) => {
+                            debug!("Legacy WebSocket handshake from {} completed OK", addr);
+                        },
+                        Err(err) => {
+                            debug!("Legacy WebSocket handshake from {} failed: {}", addr, err);
+                        }
                     }
-                }
-            });
+                });
+            },
+            Err(err) => {
+                debug!("Could not accept TCP connection on legacy WebSocket port due to {}", err);
+            }
         }
     }
 }
@@ -210,6 +215,7 @@ async fn connection(stream: TcpStream) -> Result<()> {
                     Some(SocketMsg::Close) | None => {
                         ws_write.close().await;
                         close_notif_tx.send(true).await.ok();
+                        break;
                     }
                 }
             }
