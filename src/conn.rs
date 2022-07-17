@@ -176,6 +176,7 @@ static TELNET_REPLS: [&'static str; 29] = ["</b></span>","</b></span>","<b>","",
 
 fn strip_telnet(mut the_item: String) -> String {
     the_item = the_item
+        .replace("&", "&amp;")
         .replace("<", "&lt;")
         .replace(">", "&gt;")
         .replace("\t", "     ");
