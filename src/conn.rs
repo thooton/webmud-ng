@@ -2,6 +2,7 @@ use std::net::{ToSocketAddrs, IpAddr};
 
 use anyhow::{Result, Context, bail};
 use regex::Regex;
+use crate::ansi::ansi2html;
 use crate::config::get_config;
 use crate::debug;
 
@@ -168,10 +169,10 @@ async fn telnet_handler(host: String, port: u16, parent: &mut impl ConnParent, m
     }
 }
 
-use lazy_static::lazy_static;
+//use lazy_static::lazy_static;
 
-static TELNET_COLORS: [&'static str; 29] = ["[0m","[00m","[1m","[3m","[4m","[7m","[9m","[22m","[23m","[24m","[29m","[30m","[31m","[32m","[33m","[34m","[35m","[36m","[37m","[39m","[40m","[41m","[42m","[43m","[44m","[45m","[46m","[47m","[49m"]; 
-static TELNET_REPLS: [&'static str; 29] = ["</b></span>","</b></span>","<b>","","","<span class='tnc_inverse'>","","</b>","","","","<span class='tnc_black'>","<span class='tnc_red'>","<span class='tnc_green'>","<span class='tnc_yellow'>","<span class='tnc_blue'>","<span class='tnc_magenta'>","<span class='tnc_cyan'>","<span class='tnc_white'>","<span class='tnc_default'>","<span class='tnc_bg_black'>","<span class='tnc_bg_red'>","<span class='tnc_bg_green'>","<span class='tnc_bg_yellow'>","<span class='tnc_bg_blue'>","<span class='tnc_bg_magenta'>","<span class='tnc_bg_cyan'>","<span class='tnc_bg_white'>","<span class='tnc_bg_default'>"];
+/*static TELNET_COLORS: [&'static str; 29] = ["[0m","[00m","[1m","[3m","[4m","[7m","[9m","[22m","[23m","[24m","[29m","[30m","[31m","[32m","[33m","[34m","[35m","[36m","[37m","[39m","[40m","[41m","[42m","[43m","[44m","[45m","[46m","[47m","[49m"]; 
+static TELNET_REPLS: [&'static str; 29] = ["</b></span>","</b></span>","<b>","","","<span class='tnc_inverse'>","","</b>","","","","<span class='tnc_black'>","<span class='tnc_red'>","<span class='tnc_green'>","<span class='tnc_yellow'>","<span class='tnc_blue'>","<span class='tnc_magenta'>","<span class='tnc_cyan'>","<span class='tnc_white'>","<span class='tnc_default'>","<span class='tnc_bg_black'>","<span class='tnc_bg_red'>","<span class='tnc_bg_green'>","<span class='tnc_bg_yellow'>","<span class='tnc_bg_blue'>","<span class='tnc_bg_magenta'>","<span class='tnc_bg_cyan'>","<span class='tnc_bg_white'>","<span class='tnc_bg_default'>"];*/
 
 fn strip_telnet(mut the_item: String) -> String {
     the_item = the_item
@@ -179,16 +180,21 @@ fn strip_telnet(mut the_item: String) -> String {
         .replace(">", "&gt;")
         .replace("\t", "     ");
 
-    lazy_static! {
+    /*lazy_static! {
         static ref TELNET_COMBO: Regex = Regex::new(r"(?i)\[(\d+);").unwrap();
     }
+    TELNET_COMBO.replace_all("hello", |cap: &regex::Captures| {
+        format!("{}", cap.get(0).unwrap().as_str())
+    });
     while TELNET_COMBO.is_match(&the_item) {
         the_item = TELNET_COMBO.replace_all(&the_item, "[${1}m\x1B[").to_string();
     }
     for (telnet_color, telnet_rep) in TELNET_COLORS.iter().zip(TELNET_REPLS.iter()).map(|(a,b)| (*a, *b)) {
         the_item = the_item.replace(&format!("\x1B{}", telnet_color), 
             if get_config().no_color { "" } else { telnet_rep });
-    }
+    }*/
+
+    the_item = ansi2html(&the_item);
 
     the_item
         .replace("\x1B", "")

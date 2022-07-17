@@ -16,6 +16,8 @@ mod conn;
 
 mod legacy;
 
+mod ansi;
+
 mod config {
     use std::net::IpAddr;
 

@@ -24,10 +24,10 @@ Download the appropriate binary from the releases section. Put it in your PATH i
 
 ## Todo
 - Improve legacy WebSocket client detection (currently counts number of keys in `WebSocket.prototype` and compares it to a certain threshold).
-- Do real parsing of Telnet colors instead of using regex.
+- ~~Do real parsing of Telnet colors instead of using regex.~~
 
-## Full list of command line flags
-Usage: `webmud-ng <ip> <port> [--extern-is-https] [--legacy-only] [--legacy-ip=#] [--legacy-port=#] [--legacy-extern-host=#] [--legacy-extern-port=#] [--legacy-extern-is-https] [--no-color] [--serve-from=directory] [--allow-private-connections] [--allow-invalid-tls] [--debug]`
+## Usage
+`webmud-ng <ip> <port> [--extern-is-https] [--legacy-only] [--legacy-ip=#] [--legacy-port=#] [--legacy-extern-host=#] [--legacy-extern-port=#] [--legacy-extern-is-https] [--no-color] [--serve-from=directory] [--allow-private-connections] [--allow-invalid-tls] [--debug]`
 
 `ip` - Required. The local IP for the web server and modern WS server to bind to.
 

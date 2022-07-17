@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 .tnc_default {color: inherit;}
-.tnc_bg_default {background: #transparent;}
+.tnc_bg_default {background: transparent;}
 
 .tnc_inverse {color: black; background: white;}
 
@@ -21,5 +21,10 @@
 .tnc_bg_blue {background-color: navy;}
 .tnc_bg_magenta {background-color: purple;}
 .tnc_bg_cyan {background-color: teal;}
-.tnc_bg_white {background-background-color: silver;}
+.tnc_bg_white {background-color: silver;}
 
+.tnc_blink {text-decoration: blink;}
+.tnc_line_through {text-decoration: line-through;}
+.tnc_underline {text-decoration: underline;}
+.tnc_bold {font-weight: bold;}
+.tnc_italic {font-style: italic;}
