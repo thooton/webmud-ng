@@ -73,7 +73,7 @@ pub fn ansi2html(str: &str) -> String {
 
         styles = newstyles;
 
-        let mut html = String::new();
+        let mut html = String::with_capacity(32);
         if !first {
             html.push_str("</span>");
         } else {
