@@ -260,7 +260,7 @@ function ow_Write(text)
 {	
 	var objDiv = window.top.document.getElementById("output");
 
-	text = '<div id="msg' + num_msgs + '">' + text + '</div>'; 
+	text = '<span id="msg' + num_msgs + '">' + text + '</span>'; 
 
 	objDiv.innerHTML += text;
 	
