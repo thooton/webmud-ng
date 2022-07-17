@@ -1,7 +1,7 @@
 use std::net::{ToSocketAddrs, IpAddr};
 
 use anyhow::{Result, Context, bail};
-use regex::Regex;
+//use regex::Regex;
 use crate::ansi::ansi2html;
 use crate::config::get_config;
 use crate::debug;
