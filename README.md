@@ -11,6 +11,7 @@ The goal is to provide a simple interface for a web user to interact with any [M
 
 ## Caveats
 - Sidebar in the old project is removed, which included connection status indicators as well as clickable buttons for movement. This should not be very hard to add back if you want it.
+- The Flash client (for browsers that do not support WebSockets) is not supported. If this is something you need, please feel free to open an issue.
 
 ## Installation
 Download the appropriate binary from the releases section. Put it in your PATH if you like.

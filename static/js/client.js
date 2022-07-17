@@ -64,6 +64,8 @@ var mudport;
 
 var scrollback, prevent_autoscroll=false;
 
+var objDiv;
+
 $(document).ready(function(){		    
 	conn_div = document.getElementById('connection_ws');
 	m_conn_div = document.getElementById('connection_mud');	
@@ -91,13 +93,14 @@ $(document).ready(function(){
 	w_raw = document.getElementById("w_raw");
 	nl_pct = document.getElementById("nl_pct");
 	nl_raw = document.getElementById("nl_raw");
+
+	objDiv = document.getElementById("output");
 	
 	num_msgs = 0;	
 	next_del = 0;	
 	
-	scrollback = function() {		
-		var objDiv = window.top.document.getElementById("output");
-		
+	scrollback = function() {
+		//var objDiv = window.top.document.getElementById("output");
 		if (objDiv.scrollTop < objDiv.scrollHeight && output_mouse_over)
 		{	
 			$("#output").css("border-color", "red");			
@@ -119,7 +122,7 @@ $(document).ready(function(){
 			prevent_autoscroll = false;
 			$("#output").css("border-color", "#464646");
 					
-			var objDiv = window.top.document.getElementById("output");					
+			//var objDiv = window.top.document.getElementById("output");					
 			objDiv.scrollTop = objDiv.scrollHeight;
 			$("#autoscroll").hide();
 		}		
@@ -149,6 +152,11 @@ $(document).ready(function(){
     socket.onerror = function() {
        ow_Write("<p>WebSocket error:</p>");
     }
+
+	if (!DOMPurify.isSupported) {
+		print("Warning!! DOMPurify is not supported on this browser.", "red");
+		print("Falling back to possibly insecure regex.", "red");
+	}
 });	
 
 function sendDirect(data) 
@@ -258,11 +266,26 @@ function handle_read(s)
 
 function ow_Write(text)
 {	
-	var objDiv = window.top.document.getElementById("output");
+	//var objDiv = window.top.document.getElementById("output");
 
 	text = '<span id="msg' + num_msgs + '">' + text + '</span>'; 
 
-	objDiv.innerHTML += text;
+	text = DOMPurify.sanitize(text, {
+		"USE_PROFILES": {
+			"html": true
+		}
+	});
+
+	if (!DOMPurify.isSupported) {
+		// probably insecure, but we already warned user
+		text = text.replace(/<(?!span)(?!\/span)(?!br).*?>/g, "");
+	}
+
+	if (objDiv.insertAdjacentHTML) {
+		objDiv.insertAdjacentHTML("beforeend", text);
+	} else {
+		objDiv.innerHTML += text;
+	}
 	
 	trim_ow();
 	
