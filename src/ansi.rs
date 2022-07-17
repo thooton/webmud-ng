@@ -89,6 +89,10 @@ pub fn ansi2html(str: &str) -> String {
             html.push_str("tnc_blink ");
         }
 
+        if styles.inverse {
+            html.push_str("tnc_inverse ");
+        }
+
         if styles.strikethrough {
             html.push_str("tnc_line_through ");
         }
