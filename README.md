@@ -14,7 +14,7 @@ The goal is to provide a simple interface for a web user to interact with any [M
 - The Flash client (for browsers that do not support WebSockets) is still untested. If you test it and it doesn't work, feel free to open an issue.
 
 ## Installation
-Download the appropriate binary from the releases section. Put it in your PATH if you like.
+Download the appropriate binary from the releases section. Make it executable: `chmod +x webmud-ng`. On some distributions, you may also need to relabel it for SELinux: `restorecon -Rv webmud-ng`.
 
 ## Examples
 `webmud-ng <listen ip> <listen port>` - Listen on `http://<listen ip>:<listen port>` as well as `ws://<listen ip>:<listen port>/ws`. This should suit most use-cases. Note that `<listen ip>` should be set to `0.0.0.0` if you wish to allow external connections and `127.0.0.1` otherwise. You can connect to the IP and port as-is or set up your favorite HTTP reverse proxy (e.g. Nginx) to point to it. With a reverse proxy, HTTPS/WSS should work without any issues.
