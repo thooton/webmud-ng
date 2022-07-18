@@ -7,11 +7,11 @@ The goal is to provide a simple interface for a web user to interact with any [M
 - Single, statically linked binary with zero dependencies.
 - Supports both modern TLS and unencrypted connections.
 - Supports both modern and legacy ([2010 IETF draft](https://web.archive.org/web/20100607025404/http://www.ietf.org/id/draft-ietf-hybi-thewebsocketprotocol-00.txt)) WebSocket protocols.
-- Security by default: web clients cannot connect to loopback interfaces or private address space, and TLS certificates are verified.
+- Security by default: web clients cannot connect to loopback interfaces or private address space, and TLS certificates are verified. `eval` is not used. HTML from server is sanitized with js-xss.
 
 ## Caveats
 - Sidebar in the old project is removed, which included connection status indicators as well as clickable buttons for movement. This should not be very hard to add back if you want it.
-- The Flash client (for browsers that do not support WebSockets) is not supported. If this is something you need, please feel free to open an issue.
+- The Flash client (for browsers that do not support WebSockets) is still untested. If you test it and it doesn't work, feel free to open an issue.
 
 ## Installation
 Download the appropriate binary from the releases section. Put it in your PATH if you like.

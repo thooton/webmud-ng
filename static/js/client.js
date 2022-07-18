@@ -153,9 +153,8 @@ $(document).ready(function(){
        ow_Write("<p>WebSocket error:</p>");
     }
 
-	if (!DOMPurify.isSupported) {
-		print("Warning!! DOMPurify is not supported on this browser.", "red");
-		print("Falling back to possibly insecure regex.", "red");
+	if (!( filterXSS && (filterXSS("<span>") == "<span>") )) {
+		print("Warning: filterXSS not supported on this browser.", "#fff");
 	}
 });	
 
@@ -270,15 +269,13 @@ function ow_Write(text)
 
 	text = '<span id="msg' + num_msgs + '">' + text + '</span>'; 
 
-	text = DOMPurify.sanitize(text, {
-		"USE_PROFILES": {
-			"html": true
-		}
-	});
-
-	if (!DOMPurify.isSupported) {
-		// probably insecure, but we already warned user
-		text = text.replace(/<(?!span)(?!\/span)(?!br).*?>/g, "");
+	if (filterXSS) {
+		text = filterXSS(text, {
+			"whiteList": {
+				"span": ["class"],
+				"br": []
+			}
+		});
 	}
 
 	if (objDiv.insertAdjacentHTML) {
