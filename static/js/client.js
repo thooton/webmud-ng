@@ -154,7 +154,7 @@ $(document).ready(function(){
     }
 
 	if (!( filterXSS && (filterXSS("<span>") == "<span>") )) {
-		print("Warning: filterXSS not supported on this browser.", "#fff");
+		print("Warning: filterXSS not supported on this browser.", "tnc_white");
 	}
 });	
 
@@ -176,7 +176,7 @@ function send()
 {
 	s = document.getElementById("user_input").value;
 
-	print(s, "#999");
+	print(s, "tnc_grey");
 	
 	if (mode == "websocket")
 		socket.send(s);
@@ -222,11 +222,11 @@ function set_disconnected()
 
 function print(s) {
 	    
-    var color = "#ccc";
+    var color = "tnc_light_grey";
     if (typeof(arguments[1]) != undefined)
         color = arguments[1];
     
-    ow_Write("<br><span style='color:"+color+ "'>&rarr; " + s + "</span><br>");
+    ow_Write("<br><span class='" + color + "'>&rarr; " + s + "</span><br>");
 }
 
 function handle_read(s)
@@ -236,7 +236,8 @@ function handle_read(s)
 	data = do_json_parse(s);
 
 	// Check for ATCP messages ( //
-	handle_ATCP(data);
+	// Unimplemented.
+	//handle_ATCP(data);
 	
 	// Output a standard message //
 	if (data.message) ow_Write(data.message);
@@ -267,8 +268,6 @@ function ow_Write(text)
 {	
 	//var objDiv = window.top.document.getElementById("output");
 
-	text = '<span id="msg' + num_msgs + '">' + text + '</span>'; 
-
 	if (filterXSS) {
 		text = filterXSS(text, {
 			"whiteList": {
@@ -277,6 +276,8 @@ function ow_Write(text)
 			}
 		});
 	}
+
+	text = '<span id="msg' + num_msgs + '">' + text + '</span>'; 
 
 	if (objDiv.insertAdjacentHTML) {
 		objDiv.insertAdjacentHTML("beforeend", text);
